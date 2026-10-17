@@ -38,8 +38,8 @@ def compiler():
 def main():
     if os.name != 'nt':
         raise RuntimeError('Windows 安装器必须在 Windows 上编译')
-    payload = ROOT / 'dist' / 'NodeScope-Windows-x64'
-    if not (payload / 'NodeScope.exe').is_file():
+    payload = ROOT / 'dist' / 'ProxySprint-Windows-x64'
+    if not (payload / 'ProxySprint.exe').is_file():
         raise RuntimeError('请先运行 scripts/build_bundle.py 生成 Windows 程序目录')
     version = re.search(r'^version:\s*(\d+\.\d+\.\d+)\+(\d+)',
                         (ROOT / 'desktop/pubspec.yaml').read_text('utf-8'), re.M)
@@ -48,8 +48,8 @@ def main():
     subprocess.run([str(compiler()), f'/DAppVersion={version[1]}',
                     f'/DAppBuild={version[2]}', f'/DPayloadDir={payload}',
                     f'/DOutputDir={ROOT / "dist"}',
-                    str(ROOT / 'packaging/windows/NodeScope.iss')], check=True)
-    print(f'已生成 {ROOT / "dist/NodeScope-Setup.exe"}')
+                    str(ROOT / 'packaging/windows/ProxySprint.iss')], check=True)
+    print(f'已生成 {ROOT / "dist/ProxySprint-Setup.exe"}')
 
 
 if __name__ == '__main__':

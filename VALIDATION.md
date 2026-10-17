@@ -136,3 +136,15 @@ CI 的 tests/macos_dmg.py 校验映像、只读挂载、Applications 快捷方�
 tests/packaged_engine.py 随后从复制后的应用运行，验证镜像卸载后的 HTTPS 导入、
 实际测速、推荐、失败行、导出、取消及 EOF 清理。两个后台验证步骤分别限制为 60 秒。
 测试安装目录位于项目 work/dmg-install，不写入 runner 的系统 Applications 目录。
+
+
+## ProxySprint 1.2.0 品牌与文案验证（2026-10-18）
+
+- 本地 Python 共 53 项回归通过，包含真实 Mihomo 内核测试；每个测试进程上限 60 秒。
+- Flutter 15 项测试与静态分析通过，包含 960 / 1280 宽窗口的左右独立滚动检查。
+- Windows 实际生成 ProxySprint-Setup.exe 和 ProxySprint-Windows-x64.zip。
+- 已打包引擎通过 URL / 文件导入、HTTPS 订阅、真实本地请求、各网站独立推荐、导出、取消和退出清理验证。
+- 使用隔离的演示数据实际打开 Windows 新应用，检查中文标题、品牌、副标题和结果布局。README 截图来自该窗口，已标注示例数据。
+- 稳定保留 NodeScope 数据目录、Windows AppId 与 macOS Bundle ID；历史验证记录保留原产品名称。
+- 本地已有用户安装，安装器升级与卸载检查在干净 CI 中执行；新增固定 SHA-256 的 v1.1.1 真实旧版覆盖升级检查。
+- macOS 的两种 DMG 仍由原生 CI 验证挂载、复制、签名、架构与安装后的引擎，本机 Windows 不模拟这些结果。

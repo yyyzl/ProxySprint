@@ -23,13 +23,13 @@ def main():
     source = (ROOT / 'app.html').read_text(encoding='utf-8')
     for state, filename, name, description in SCREENS:
         page = source.replace('data-start="idle"', 'data-start="' + state + '"')
-        page = page.replace('<title>节点探针</title>', '<title>' + name + ' · 节点探针</title>')
+        page = page.replace('<title>ProxySprint · 代理节点测速</title>', '<title>' + name + ' · ProxySprint · 代理节点测速</title>')
         (ROOT / filename).write_text(page, encoding='utf-8')
     cards=[]
     for number,(state, filename, name, description) in enumerate(SCREENS,1):
         cards.append('<a class="screen-card" href="'+html.escape(filename)+'"><div class="screen-image"><img src="assets/screens/'+state+'.png" alt="'+name+'界面预览" loading="lazy"></div><div class="screen-info"><span class="screen-number">'+str(number).zfill(2)+'</span><div><h2>'+name+'</h2><p>'+description+'</p></div><span class="open-arrow" aria-hidden="true">↗</span></div></a>')
     gallery='''<!DOCTYPE html>
-<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>节点探针 · HTML 原型目录</title>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ProxySprint · 代理节点测速 · HTML 原型目录</title>
 <link rel="stylesheet" href="assets/prototype.css"><style>
 body{padding:clamp(24px,4vw,54px);max-width:1540px;margin:auto}
 .gallery-head{display:flex;justify-content:space-between;align-items:center;gap:20px;padding-bottom:26px;border-bottom:1px solid var(--line)}
@@ -49,7 +49,7 @@ body{padding:clamp(24px,4vw,54px);max-width:1540px;margin:auto}
 @media(min-width:1550px){.screen-image{height:250px}}@media(max-width:1080px){.screens{grid-template-columns:repeat(2,minmax(0,1fr))}.screen-image{height:240px}}
 @media(max-width:650px){.screens{grid-template-columns:1fr;gap:18px}.screen-image{height:auto;aspect-ratio:1280/860}.gallery-head{align-items:start;flex-wrap:wrap}.gallery-head .brand h1{font-size:23px}.open-main{padding:10px 16px}.prototype-note{margin:20px 0}}
 </style></head><body>
-<header class="gallery-head"><div><div class="brand"><span class="brand-mark" aria-hidden="true"></span><h1>节点探针 · 原型目录</h1></div><p>先确认界面与操作，再进入 Flutter 实现。</p></div><a class="open-main" href="01-主界面.html">打开主界面 →</a></header>
+<header class="gallery-head"><div><div class="brand"><span class="brand-mark" aria-hidden="true"></span><h1>ProxySprint · 代理节点测速 · 原型目录</h1></div><p>先确认界面与操作，再进入 Flutter 实现。</p></div><a class="open-main" href="01-主界面.html">打开主界面 →</a></header>
 <p class="prototype-note"><strong>12 个可操作的 HTML 界面，沿用已确认的设计稿。</strong><br>连接状态、节点与耗时均为模拟数据，用于预览界面和验证交互。名称包含 / 排除收进高级筛选，默认留空。点击下方任一界面即可查看。</p>
 <main class="screens">CARDS</main>
 <footer class="gallery-footer"><span>双击 HTML 即可打开 · 无需安装开发环境</span><span>设计规范：<a href="https://github.com/esthersjw/esther-design-system" target="_blank" rel="noreferrer">ESTHER不二</a> · CC BY-NC-SA 4.0</span><a href="原型说明.txt">原型范围与验证说明</a></footer>

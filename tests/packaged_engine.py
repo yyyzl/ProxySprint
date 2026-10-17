@@ -18,12 +18,12 @@ from tls_fixture import certificate
 
 
 def bundle_engine():
-    if os.environ.get('NODESCOPE_ENGINE_BINARY'):
-        return Path(os.environ['NODESCOPE_ENGINE_BINARY'])
+    if os.environ.get('PROXYSPRINT_ENGINE_BINARY'):
+        return Path(os.environ['PROXYSPRINT_ENGINE_BINARY'])
     if os.name=='nt':
-        return ROOT/'dist/NodeScope-Windows-x64/engine/probe-engine/probe-engine.exe'
+        return ROOT/'dist/ProxySprint-Windows-x64/engine/probe-engine/probe-engine.exe'
     binaries=list((ROOT/'dist').glob(
-        'NodeScope-macOS-*/NodeScope.app/Contents/Resources/engine/probe-engine/probe-engine'))
+        'ProxySprint-macOS-*/ProxySprint.app/Contents/Resources/engine/probe-engine/probe-engine'))
     assert len(binaries)==1
     return binaries[0]
 
@@ -32,11 +32,11 @@ def run():
     binary=Path(os.environ['MIHOMO_TEST_BINARY'])
     fixtures=[]
     process=None
-    with tempfile.TemporaryDirectory(prefix='nodescope-packaged-') as directory:
+    with tempfile.TemporaryDirectory(prefix='proxysprint-packaged-') as directory:
         folder=Path(directory)
         try:
-            if os.environ.get('NODESCOPE_TEST_CERT') and os.environ.get('NODESCOPE_TEST_KEY'):
-                cert, key = (Path(os.environ[name]) for name in ('NODESCOPE_TEST_CERT', 'NODESCOPE_TEST_KEY'))
+            if os.environ.get('PROXYSPRINT_TEST_CERT') and os.environ.get('PROXYSPRINT_TEST_KEY'):
+                cert, key = (Path(os.environ[name]) for name in ('PROXYSPRINT_TEST_CERT', 'PROXYSPRINT_TEST_KEY'))
             else:
                 cert, key = certificate(folder)
             class ObservedTarget(TargetHandler):

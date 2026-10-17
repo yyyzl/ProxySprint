@@ -94,7 +94,7 @@ def header_value(values):
 
 
 def request_headers(raw=None):
-    headers = {'User-Agent': 'mihomo/1.19.32 NodeScope/1.1.0', 'Accept-Encoding': 'identity'}
+    headers = {'User-Agent': 'mihomo/1.19.32 ProxySprint/1.2.0', 'Accept-Encoding': 'identity'}
     if raw is None:
         return headers
     if not isinstance(raw, dict):
@@ -140,7 +140,7 @@ def subscription_tls():
     try:
         context.load_verify_locations(cafile=str(trust_bundle()))
     except (OSError, ssl.SSLError):
-        raise ValueError('HTTPS 证书根缺失或损坏，请使用完整 NodeScope 程序包。') from None
+        raise ValueError('HTTPS 证书根缺失或损坏，请使用完整 ProxySprint 程序包。') from None
     return context
 
 

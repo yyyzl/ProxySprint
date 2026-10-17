@@ -1,4 +1,4 @@
-# NodeScope 桌面模块设计
+# ProxySprint 桌面模块设计
 
 ## 设计目标
 
@@ -71,3 +71,7 @@ GitHub Actions 分别编译 Windows 与 macOS，分支检查通过后才提交�
 
 2026-10-15：按用户要求改为 macOS DMG 发行，分别提供 Apple Silicon 和 Intel 包。
 使用系统 hdiutil，无新增全局依赖；保留现有应用 ad-hoc 签名及 Apple 公证限制。
+
+2026-10-18：显示品牌统一为 ProxySprint，增加用途副标题；响应延迟采用中文解释。数据目录与 macOS Bundle ID 保留，Windows 与 macOS 产品文件名同步更新。
+
+Windows 原生入口按 UTF-8 编译，避免含中文标题在不同系统代码页下编译失败。

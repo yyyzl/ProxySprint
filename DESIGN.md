@@ -1,4 +1,4 @@
-# NodeScope 引擎与来源设计
+# ProxySprint 引擎与来源设计
 
 ## 架构与职责
 
@@ -35,7 +35,7 @@ v* 标签推送或 GitHub Release 发布后启动构建，全部通过后 prepar
 再统一上传到 GitHub Release。避免把“Actions 构建成功”误当作“Release 已包含附件”。
 Mihomo 使用固定官方摘要，随包保留 GPL-3.0 与对应源码 / 构建文件链接。
 macOS 使用系统 hdiutil 创建 HFS+ / UDZO 压缩只读 DMG，在隔离暂存目录中仅放入
-NodeScope.app、指向 /Applications 的快捷方式和说明文档。两种架构分别交付 DMG。
+ProxySprint.app、指向 /Applications 的快捷方式和说明文档。两种架构分别交付 DMG。
 原生 runner 挂载镜像并复制应用到测试安装目录，卸载后核对签名、架构与权限，
 再执行真实包内引擎集成，避免只验证构建目录而遗漏安装后的问题。
 
@@ -53,3 +53,9 @@ Flutter 窗口测试覆盖宽 / 窄布局、导入交互和左右滚动隔离。
 2026-10-15：根据用户对 Mac 安装方式的要求，将 macOS 发行格式改为 DMG。
 影响范围为打包、安装验证、Release 附件与说明；测速功能和 Windows 发行方式保持现有行为。
 以 v1.1.1 发布打包修正版，保留 v1.1.0 的历史版本记录。
+
+2026-10-18：品牌改为 ProxySprint · 代理节点测速。README 优先展示用途、下载与使用，
+开发和打包说明移至 CONTRIBUTING.md。统一窗口标题、报告、程序包、原型文本与仓库链接。
+为避免升级后丢失设置，保留 NodeScope 数据目录、Windows AppId 和 macOS Bundle ID。
+Windows 安装器替换旧程序及快捷方式；历史版本验证记录保持原名，避免改写已有证据。
+界面将 TTFB 标为“响应延迟”，在详情和 README 解释计算口径，统计逻辑不变。

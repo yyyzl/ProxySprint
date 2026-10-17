@@ -199,7 +199,7 @@ class ReleaseTests(unittest.TestCase):
                 (folder / name).write_bytes(b'fixture')
             with self.assertRaisesRegex(RuntimeError, 'macOS-arm64.*macOS-x86_64'):
                 prepare(folder)
-            for name in ('NodeScope-macOS-arm64.zip', 'NodeScope-macOS-x86_64.zip'):
+            for name in ('ProxySprint-macOS-arm64.zip', 'ProxySprint-macOS-x86_64.zip'):
                 (folder / name).write_bytes(b'legacy zip')
             with self.assertRaisesRegex(RuntimeError, r'macOS-arm64\.dmg.*macOS-x86_64\.dmg'):
                 prepare(folder)

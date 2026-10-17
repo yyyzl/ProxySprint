@@ -14,13 +14,13 @@ def run():
     if sys.platform != 'darwin':
         raise RuntimeError('DMG 挂载与安装验证需要 macOS。')
     architecture = platform.machine()
-    image = ROOT / f'dist/NodeScope-macOS-{architecture}.dmg'
+    image = ROOT / f'dist/ProxySprint-macOS-{architecture}.dmg'
     if not image.is_file():
         raise RuntimeError('缺少当前架构的 DMG。')
-    installed = ROOT / 'work/dmg-install/Applications/NodeScope.app'
+    installed = ROOT / 'work/dmg-install/Applications/ProxySprint.app'
     installed.parent.mkdir(parents=True, exist_ok=True)
     subprocess.run(['hdiutil', 'verify', str(image)], check=True, timeout=20)
-    with tempfile.TemporaryDirectory(prefix='nodescope-dmg-mount-') as directory:
+    with tempfile.TemporaryDirectory(prefix='proxysprint-dmg-mount-') as directory:
         mount = Path(directory) / 'mounted'
         mount.mkdir()
         attached = False
@@ -29,10 +29,10 @@ def run():
                             '-mountpoint', str(mount), str(image)], check=True, timeout=20)
             attached = True
             visible = {entry.name for entry in mount.iterdir() if not entry.name.startswith('.')}
-            assert visible == {'NodeScope.app', 'Applications', 'README.md', 'THIRD_PARTY_NOTICES.md'}, visible
+            assert visible == {'ProxySprint.app', 'Applications', 'README.md', 'THIRD_PARTY_NOTICES.md'}, visible
             shortcut = mount / 'Applications'
             assert shortcut.is_symlink() and os.readlink(shortcut) == '/Applications'
-            subprocess.run(['ditto', str(mount / 'NodeScope.app'), str(installed)],
+            subprocess.run(['ditto', str(mount / 'ProxySprint.app'), str(installed)],
                            check=True, timeout=20)
         finally:
             if attached:

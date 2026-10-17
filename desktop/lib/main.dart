@@ -18,6 +18,7 @@ String? _argument(List<String> args, String key) {
 Future<void> main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   await windowManager.ensureInitialized();
+  // 数据目录作为稳定标识保留，改名后继续读取已有设置和报告。
   final dataDirectory =
       _argument(args, '--data-dir') ??
       (Platform.isWindows && Platform.environment['LOCALAPPDATA'] != null
@@ -36,13 +37,13 @@ Future<void> main(List<String> args) async {
     startupError = ProbeController.message(failure);
   }
   await windowManager.setPreventClose(true);
-  runApp(NodeScopeApp(controller: controller, startupError: startupError));
+  runApp(ProxySprintApp(controller: controller, startupError: startupError));
   await windowManager.waitUntilReadyToShow(
     const WindowOptions(
       size: Size(1240, 800),
       minimumSize: Size(800, 600),
       center: true,
-      title: 'NodeScope · 节点探针',
+      title: 'ProxySprint · 代理节点测速',
       backgroundColor: cream,
       titleBarStyle: TitleBarStyle.normal,
     ),
@@ -54,15 +55,15 @@ Future<void> main(List<String> args) async {
   if (controller != null) await controller.initialize();
 }
 
-class NodeScopeApp extends StatefulWidget {
+class ProxySprintApp extends StatefulWidget {
   final ProbeController? controller;
   final String? startupError;
-  const NodeScopeApp({super.key, this.controller, this.startupError});
+  const ProxySprintApp({super.key, this.controller, this.startupError});
   @override
-  State<NodeScopeApp> createState() => _NodeScopeAppState();
+  State<ProxySprintApp> createState() => _ProxySprintAppState();
 }
 
-class _NodeScopeAppState extends State<NodeScopeApp> with WindowListener {
+class _ProxySprintAppState extends State<ProxySprintApp> with WindowListener {
   bool _closing = false;
   @override
   void initState() {
@@ -91,7 +92,7 @@ class _NodeScopeAppState extends State<NodeScopeApp> with WindowListener {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-    title: 'NodeScope · 节点探针',
+    title: 'ProxySprint · 代理节点测速',
     debugShowCheckedModeBanner: false,
     theme: probeTheme(),
     home: widget.controller != null

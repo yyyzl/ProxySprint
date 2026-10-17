@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="light">
-<title>节点探针 · 按网站挑选线路</title>
+<title>ProxySprint · 代理节点测速 · 按网站挑选线路</title>
 <style>
 /* Adapted from ESTHER不二's template-app: local fonts, no remote assets. */
 :root { --_esther-ds:"esthersjw-v1"; --blue:#2B7FD8; --blue-ink:#2268b3; --yellow:#F4D758; --red:#E84A5F; --cream:#fefcf6; --paper:#fffcf5; --ink:#1A1A2E; --ink-light:#4A4A5A; --ink-faint:#72716b; --border:#e6e2d8; --tint:#edf4fb; }
@@ -24,7 +24,7 @@ h1 {line-height:1.3;} .button-link {color:var(--blue-ink);} .tab-bar {position:s
 <body>
 <a class="skip" href="#main">跳到操作区</a>
 <header class="app-header">
- <div class="brand"><span class="brand-mark" aria-hidden="true"></span><div><h1>节点探针</h1><p>按网站挑选线路</p></div></div>
+ <div class="brand"><span class="brand-mark" aria-hidden="true"></span><div><h1>ProxySprint · 代理节点测速</h1><p>按网站挑选线路</p></div></div>
  <div class="header-actions"><span id="connection-status" role="status">正在连接本地服务…</span><button id="save-button" type="button" disabled>保存设置</button></div>
 </header>
 <nav class="tab-bar" aria-label="工作区"><button id="tab-configure" class="tab active" type="button" aria-pressed="true">配置探测</button><button id="tab-compare" class="tab" type="button" aria-pressed="false">对比结果</button><span class="tab-caption">本地运行 · <span class="hl-yellow">不修改当前线路</span></span></nav>
@@ -62,7 +62,7 @@ h1 {line-height:1.3;} .button-link {color:var(--blue-ink);} .tab-bar {position:s
  <div class="table-wrap" id="results-wrap"><table id="results-table" hidden><caption class="sr-only">探测结果，优先显示成功率高、响应时间短的节点</caption><thead><tr><th scope="col">节点 / 来源</th><th scope="col">网站</th><th scope="col">地区</th><th scope="col">成功率</th><th scope="col">响应中位数</th><th scope="col">抖动</th><th scope="col">详情</th></tr></thead><tbody id="result-rows"></tbody></table><div class="empty" id="results-empty"><div class="empty-mark" aria-hidden="true">↗</div><p>尚未开始探测</p><p>这里仅显示真实请求结果，不提供示例数据。</p></div></div>
  <div class="table-count"><span id="row-count">0 条结果</span><span>成功优先 · 成功率 ↓ · 响应中位数 ↑</span></div><p class="report-note" id="report-note"></p>
  </section></div>
- <footer class="footer"><span>节点探针 <span id="version">—</span> · 结果反映本次请求，不保证后续可用。</span><span>设计改编自 ESTHER不二 · <a href="https://github.com/esthersjw/esther-design-system" target="_blank" rel="noopener noreferrer">esthersjw/esther-design-system</a> · CC BY-NC-SA 4.0</span></footer>
+ <footer class="footer"><span>ProxySprint · 代理节点测速 <span id="version">—</span> · 结果反映本次请求，不保证后续可用。</span><span>设计改编自 ESTHER不二 · <a href="https://github.com/esthersjw/esther-design-system" target="_blank" rel="noopener noreferrer">esthersjw/esther-design-system</a> · CC BY-NC-SA 4.0</span></footer>
 </main>
 <dialog id="site-dialog" aria-labelledby="site-dialog-title"><form id="site-form"><div class="dialog-head"><h2 id="site-dialog-title">添加网站</h2><button type="button" data-close="site-dialog" aria-label="关闭网站编辑">×</button></div><p class="dialog-note">仅填写公开地址；不支持或保存网站认证信息。</p><label class="field"><span>网站名称</span><input id="site-name" type="text" maxlength="100" required></label><label class="field"><span>探测 URL</span><input id="site-url" type="url" placeholder="https://example.com/" required></label><label class="field"><span>预期 HTTP 状态码</span><input id="site-statuses" type="text" value="200" placeholder="200,204" required><span class="muted">英文逗号分隔，每个数字必须在 100–599 之间。</span></label><label class="field"><span>内容校验</span><select id="site-validator" disabled><option value="none">无（仅检查 HTTP 状态）</option></select></label><p id="site-error" class="failure" role="alert" hidden></p><div class="dialog-actions"><button type="button" data-close="site-dialog">取消</button><button class="primary" type="submit">应用到配置</button></div></form></dialog>
 <dialog id="manual-dialog" aria-labelledby="manual-title"><div class="dialog-head"><h2 id="manual-title">手动勾选节点</h2><button type="button" data-close="manual-dialog" aria-label="关闭节点选择">×</button></div><p class="dialog-note">按当前地区与筛选范围列出候选。未勾选任何节点表示使用全部匹配节点，不会默认全选。</p><label class="field"><span>搜索候选节点</span><input id="manual-search" type="search" placeholder="节点名称或来源"></label><div class="inline-actions" style="margin-top:12px"><button id="manual-select-visible" type="button">勾选可见节点</button><button id="manual-unselect" type="button">清空勾选</button><span id="manual-count" class="muted" role="status"></span></div><div id="manual-list" class="node-checklist"></div><div class="dialog-actions"><button type="button" data-close="manual-dialog">取消</button><button id="manual-apply" class="primary" type="button">应用勾选</button></div></dialog>

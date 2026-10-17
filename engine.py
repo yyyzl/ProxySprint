@@ -200,7 +200,7 @@ def discover(overrides, require_runtime=True):
     binary = (overrides.get('binary_path') or bundled_core()) if standalone else (overrides.get('binary_path') or hints.get('binary_path') or next((p for p in binary_candidates if Path(p).is_file()), '') or shutil.which('mihomo'))
     if not binary or not Path(binary).expanduser().is_file():
         if require_runtime:
-            raise RuntimeError('未找到独立 Mihomo，请安装完整 NodeScope 包或指定内核路径。' if standalone else '未找到 Mihomo 可执行文件，请指定 binary_path')
+            raise RuntimeError('未找到独立 Mihomo，请安装完整 ProxySprint 包或指定内核路径。' if standalone else '未找到 Mihomo 可执行文件，请指定 binary_path')
         binary = ''
     interface = overrides.get('interface', '')
     if sys.platform == 'win32' and not interface and (standalone or not overrides.get('config_path')):
