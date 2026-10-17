@@ -184,7 +184,16 @@ class _ProbePageState extends State<ProbePage> {
           children: [
             const Icon(Icons.explore_outlined, color: blue, size: 34),
             const SizedBox(width: 12),
-            Text('节点探针', style: heading(25)),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('ProxySprint', style: heading(25)),
+                const Text(
+                  '代理节点测速 · 按网站选出更快、更稳的节点',
+                  style: TextStyle(fontSize: 12, color: muted),
+                ),
+              ],
+            ),
           ],
         ),
         Row(
@@ -771,7 +780,7 @@ class _ProbePageState extends State<ProbePage> {
                     ),
                   ),
                   const Text(
-                    '首字节中位数',
+                    '响应延迟（中位数）',
                     style: TextStyle(fontSize: 13, color: muted),
                   ),
                 ],
@@ -802,13 +811,13 @@ class _ProbePageState extends State<ProbePage> {
           ),
           const SizedBox(height: 26),
           Text(
-            c.running ? '正在等待首组结果' : '选择范围，开始第一次测速',
+            c.running ? '正在等待首组结果' : '选好网站和节点，开始测速',
             style: heading(23),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 12),
           const Text(
-            '完成后，每个网站会得到独立排名与推荐。',
+            '先导入订阅或配置文件，再选择你常用的网站。\n完成后查看各网站的节点排名与推荐。',
             style: TextStyle(color: muted),
             textAlign: TextAlign.center,
           ),
@@ -843,7 +852,7 @@ class _ProbePageState extends State<ProbePage> {
               _sortColumn('节点', 'name'),
               const DataColumn(label: Text('地区')),
               const DataColumn(label: Text('成功率')),
-              _sortColumn('首字节', 'median_ms'),
+              _sortColumn('响应延迟', 'median_ms'),
               const DataColumn(label: Text('波动')),
             ],
             rows: c.rows

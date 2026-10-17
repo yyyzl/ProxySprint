@@ -27,7 +27,7 @@ def download_core():
     if not archive.exists():
         request=urllib.request.Request(
             'https://github.com/MetaCubeX/mihomo/releases/download/'+VERSION+'/'+asset,
-            headers={'User-Agent':'NodeScope-build'})
+            headers={'User-Agent':'ProxySprint-build'})
         with urllib.request.urlopen(request,timeout=60) as response:
             archive.write_bytes(response.read())
     if hashlib.sha256(archive.read_bytes()).hexdigest()!=digest:

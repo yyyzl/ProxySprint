@@ -797,7 +797,7 @@ Future<void> showDetailDialog(
           runSpacing: 12,
           children: [
             Text('成功次数 ${row['successes']}/${row['total']}'),
-            Text('首字节 ${formatMs(row['median_ms'])}'),
+            Text('响应延迟 ${formatMs(row['median_ms'])}'),
             Text('波动 ${formatMs(row['jitter_ms'])}'),
           ],
         ),
@@ -809,7 +809,7 @@ Future<void> showDetailDialog(
               DataColumn(label: Text('轮次')),
               DataColumn(label: Text('结果')),
               DataColumn(label: Text('状态码')),
-              DataColumn(label: Text('首字节')),
+              DataColumn(label: Text('响应延迟')),
               DataColumn(label: Text('总耗时')),
               DataColumn(label: Text('说明')),
             ],
@@ -847,7 +847,7 @@ Future<void> showDetailDialog(
         ),
         const SizedBox(height: 16),
         const Text(
-          '首字节耗时不是 ping，也不代表模型生成速度。',
+          '响应延迟：从发出请求到收到网站首个字节的时间。数值越小，响应越快。',
           style: TextStyle(color: muted, fontSize: 13),
         ),
       ],
@@ -876,7 +876,7 @@ Future<void> showExportDialog(BuildContext context, ProbeController c) async {
                     setLocal(() => exporting = true);
                     try {
                       final destination = await getSaveLocation(
-                        suggestedName: 'NodeScope-报告.$format',
+                        suggestedName: 'ProxySprint-报告.$format',
                         acceptedTypeGroups: [
                           XTypeGroup(
                             label: format.toUpperCase(),

@@ -5,9 +5,9 @@
 // 'flutter create' template.
 
 // The application's name. By default this is also the title of the Flutter window.
-PRODUCT_NAME = NodeScope
+PRODUCT_NAME = ProxySprint
 
-// The application's bundle identifier
+// 稳定的应用身份，品牌改名时保留以支持已有安装。
 PRODUCT_BUNDLE_IDENTIFIER = dev.siteprobe.nodescope
 
 // The copyright displayed in application information

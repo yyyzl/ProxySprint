@@ -25,9 +25,13 @@ subprocess.run([sys.executable,'-m','PyInstaller','--noconfirm','--onedir',
     '--workpath',str(ROOT/'work/pyinstaller'),'desktop_host.py'],
     cwd=ROOT,check=True)
 if os.name=='nt':
-    output=ROOT/'dist/NodeScope-Windows-x64'
+    output=ROOT/'dist/ProxySprint-Windows-x64'
+    # 增量编译可能留有旧品牌 EXE，只交付当前应用的入口。
     shutil.copytree(ROOT/'desktop/build/windows/x64/runner/Release',
-        output,dirs_exist_ok=True)
+        output,dirs_exist_ok=True,
+        ignore=lambda directory,names: [name for name in names
+            if name.endswith('.exe') and name!='ProxySprint.exe'])
+    assert (output/'ProxySprint.exe').is_file(),'未找到 ProxySprint.exe'
     vswhere=Path(os.environ.get('ProgramFiles(x86)',r'C:\Program Files (x86)'))/'Microsoft Visual Studio/Installer/vswhere.exe'
     installation=subprocess.check_output([str(vswhere),'-latest','-products','*',
         '-requires','Microsoft.VisualStudio.Component.VC.Tools.x86.x64',
@@ -39,12 +43,12 @@ if os.name=='nt':
         shutil.copy2(library,output/library.name)
     engine=output/'engine/probe-engine'
 else:
-    output=ROOT/('dist/NodeScope-macOS-'+platform.machine())
+    output=ROOT/('dist/ProxySprint-macOS-'+platform.machine())
     output.mkdir(parents=True,exist_ok=True)
-    candidates=list((ROOT/'desktop/build/macos/Build/Products/Release').glob('*.app'))
-    assert len(candidates)==1,'未找到唯一 macOS 应用'
-    app=output/'NodeScope.app'
-    shutil.copytree(candidates[0],app,symlinks=True,dirs_exist_ok=True)
+    built=ROOT/'desktop/build/macos/Build/Products/Release/ProxySprint.app'
+    assert built.is_dir(),'未找到 ProxySprint.app'
+    app=output/'ProxySprint.app'
+    shutil.copytree(built,app,symlinks=True,dirs_exist_ok=True)
     engine=app/'Contents/Resources/engine/probe-engine'
 shutil.copytree(ROOT/'work/frozen/probe-engine',engine,dirs_exist_ok=True)
 core=engine/'core'
@@ -56,8 +60,8 @@ if hashlib.sha256(ca_bundle.read_bytes()).hexdigest()!='9cc2a774b5198dcff14d9be1
     raise RuntimeError('固定公共根证书的 SHA-256 校验失败')
 shutil.copy2(ca_bundle,core/'cacert.pem')
 shutil.copy2(ROOT/'third_party/certifi/LICENSE',core/'CA-LICENSE')
-for name in ('README.md','THIRD_PARTY_NOTICES.md'):
-    shutil.copy2(ROOT/name,output/name)
+shutil.copy2(ROOT/'packaging/README.md',output/'README.md')
+shutil.copy2(ROOT/'THIRD_PARTY_NOTICES.md',output/'THIRD_PARTY_NOTICES.md')
 if os.name=='nt':
     archive=output.with_suffix('.zip')
     with zipfile.ZipFile(archive,'w',zipfile.ZIP_DEFLATED) as bundle:
@@ -73,13 +77,13 @@ else:
         '--timestamp=none',str(app)],check=True)
     subprocess.run(['codesign','--verify','--deep','--strict',str(app)],check=True)
     archive=output.with_suffix('.dmg')
-    with tempfile.TemporaryDirectory(prefix='nodescope-dmg-') as directory:
+    with tempfile.TemporaryDirectory(prefix='proxysprint-dmg-') as directory:
         staging=Path(directory)
-        subprocess.run(['ditto',str(app),str(staging/'NodeScope.app')],check=True)
+        subprocess.run(['ditto',str(app),str(staging/'ProxySprint.app')],check=True)
         (staging/'Applications').symlink_to('/Applications',target_is_directory=True)
         for name in ('README.md','THIRD_PARTY_NOTICES.md'):
             shutil.copy2(output/name,staging/name)
-        subprocess.run(['hdiutil','create','-volname','NodeScope',
+        subprocess.run(['hdiutil','create','-volname','ProxySprint',
             '-srcfolder',str(staging),'-fs','HFS+','-format','UDZO','-ov',
             str(archive)],check=True)
 print('已生成 '+str(archive))

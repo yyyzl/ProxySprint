@@ -1,4 +1,4 @@
-"""Loopback-only web host for Node Probe. No cloud, no main-core mutation."""
+"""ProxySprint 本地网页入口：仅监听回环地址，不修改主客户端。"""
 from __future__ import annotations
 import argparse
 import copy
@@ -20,7 +20,7 @@ import webbrowser
 from urllib.parse import parse_qs, urlsplit
 from node_sources import DEFAULT_SOURCE, SourceStore, normalize_source
 
-VERSION = '1.1.1'
+VERSION = '1.2.0'
 ROOT = Path(__file__).resolve().parent
 CONNECTION_KEYS = ('config_path', 'binary_path', 'core_dir', 'controller', 'unix_socket', 'interface', 'named_pipe')
 
@@ -332,7 +332,7 @@ def make_server(port=0, data_dir=None, engine_module=None):
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(description='节点探针：本地多站点、分区域 Clash/Mihomo 测速工具')
+    parser = argparse.ArgumentParser(description='ProxySprint · 代理节点测速：本地多站点、分区域 Clash/Mihomo 测速工具')
     parser.add_argument('--port', type=int, default=0, help='本地网页端口，0 表示自动分配')
     parser.add_argument('--data-dir', type=Path, default=default_data_dir(), help='设置和测速报告保存目录')
     parser.add_argument('--no-browser', action='store_true', help='不自动打开浏览器')
@@ -346,7 +346,7 @@ def main(argv=None):
         if args.ready_file:
             args.ready_file.parent.mkdir(parents=True, exist_ok=True)
             httpd.app.write_json(args.ready_file, {'url': httpd.url, 'pid': os.getpid(), 'port': httpd.server_port})
-        print('节点探针已启动：' + httpd.url, flush=True)
+        print('ProxySprint · 代理节点测速已启动：' + httpd.url, flush=True)
         print('仅本机访问；不修改当前 Clash 线路。按 Control+C 退出。', flush=True)
         if not args.no_browser:
             webbrowser.open(httpd.url)

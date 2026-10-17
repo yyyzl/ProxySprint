@@ -27,7 +27,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE instance, _In_opt_ HINSTANCE prev,
   FlutterWindow window(project);
   Win32Window::Point origin(10, 10);
   Win32Window::Size size(1240, 800);
-  if (!window.Create(L"NodeScope · 节点探针", origin, size)) {
+  if (!window.Create(L"ProxySprint · 代理节点测速", origin, size)) {
     return EXIT_FAILURE;
   }
   window.SetQuitOnClose(true);

@@ -47,7 +47,7 @@ const waitFor = async (fn, message) => {
 test('bootstrap renders Chinese configuration, default regions and ChatGPT only', async browser => {
   const {page,errors} = await setup(browser);
   await waitFor(async()=>await page.locator('#region-jp').count(), 'Bootstrap must render Japan checkbox');
-  assert.equal(await page.title(),'节点探针 · 按网站挑选线路');
+  assert.equal(await page.title(),'ProxySprint · 代理节点测速 · 按网站挑选线路');
   assert.equal(await page.locator('#region-jp').isChecked(),true);
   assert.equal(await page.locator('#region-sg').isChecked(),true);
   assert.equal(await page.locator('#region-hk').isChecked(),false);

@@ -1,120 +1,68 @@
-# NodeScope · 节点探针
+<p align="center">
+  <img src="desktop/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_128.png" width="80" alt="ProxySprint 图标">
+</p>
 
-NodeScope 是一款 Clash/Mihomo 节点测速工具，支持 Windows 和 macOS。
-按目标网站、地区和节点范围，通过真实 HTTP 请求比较访问成功率、
-首字节延迟与波动，帮助你选出访问各网站更快、更稳定的节点，并导出测速报告。
+# ProxySprint · 代理节点测速
 
-## 启动
+**导入订阅，找出访问常用网站更快、更稳的节点。**
 
-Windows：双击 **NodeScope-Setup.exe**，按中文向导安装。默认安装到
-当前用户的 LocalAppData/Programs/NodeScope，无需管理员权限。
-安装后从开始菜单打开 NodeScope，也可在安装时选择创建桌面快捷方式。
-可在 Windows“已安装的应用”中卸载；卸载保留本机设置和测速报告。
-覆盖安装会更新已有程序。当前 EXE 尚无代码签名证书。
+ProxySprint 按网站测试你的代理节点，比较访问成功率、响应延迟和波动，给出各网站的节点排名与推荐。支持 **Windows / macOS**，安装后即可使用。
 
-便携 ZIP 仍可使用：解压完整的 NodeScope-Windows-x64.zip，双击 NodeScope.exe，
-保留旁边的 data、engine 和 DLL。两种发行方式均不需要安装 Python、Node 或 Flutter。
+[**下载安装**](https://github.com/yyyzl/ProxySprint/releases/latest) · [三步上手](#三步上手) · [常见问题](#常见问题) · [English](README.en.md)
 
-macOS：Apple Silicon 下载 NodeScope-macOS-arm64.dmg；Intel Mac 下载
-NodeScope-macOS-x86_64.dmg。打开 DMG，将 NodeScope 拖到 Applications，
-再从“应用程序”打开 NodeScope，安装完成后可推出磁盘映像。
-当前构建为 ad-hoc 签名，尚未做 Apple Developer 签名与公证。
+![ProxySprint 测速结果界面：左侧选择网站与节点，右侧查看推荐和排名](preview.png)
 
-点击“导入节点”，粘贴自己的 Clash/Mihomo 订阅 URL，或选择 YAML / JSON 配置文件。
-导入后预览节点、选择网站与地区，再开始测速。安装包自带固定版本 Mihomo，
-无需预先安装或打开代理客户端。应用不提供预置订阅。
+*界面截图使用演示节点与示例数据，仅展示操作和结果布局。*
 
-配置引用其他 HTTP 节点来源时，界面先列出来源，勾选允许获取后再导入。
-订阅目前直连获取；链接不可达时可导入已下载的配置文件。
-本版本支持 YAML / JSON，暂不支持 URI / Base64 订阅。
-“刷新节点”会重新获取当前订阅或读取当前文件；重新打开应用使用上次的本机快照。
+## 它能帮你做什么
 
-已有 Clash Verge Rev 用户仍可在连接设置中自动发现客户端，读取生效配置与缓存。
-自动发现失败时，手动选择内核、生效配置及其工作目录。
+- **按网站选节点**：分别测试 ChatGPT、GitHub、Google、YouTube、Wikipedia，也可添加自己的网址。
+- **直接导入订阅**：粘贴 Clash/Mihomo 订阅链接，或选择 YAML / JSON 配置文件，无需另装代理客户端。
+- **看速度，也看稳定性**：多轮请求比较成功率、响应延迟和波动；每轮都成功的节点才进入推荐。
+- **缩小范围、保存结果**：按地区、策略组、来源或名称筛选，手动挑选节点，导出 CSV / JSON。
 
-## 功能
+## 下载
 
-- ChatGPT、GitHub、Google、YouTube、Wikipedia，以及自定义 HTTP/HTTPS 地址。
-- 默认日本、新加坡；支持香港、韩国、台湾、美国和其他地区。
-- 策略组、provider 来源、高级名称筛选、节点上限、手动选择。
-- 留空名称筛选不限制节点，手动选择为空使用全部匹配节点。
-- 成功率、首字节中位数、波动、逐轮明细；失败节点仍保留。
-- 点击首字节表头排序；只有全部轮次成功的节点进入推荐。
-- 取消不覆盖上次完整报告；导出 CSV / JSON。
+| 你的设备 | 下载 | 安装方式 |
+| --- | --- | --- |
+| Windows 10/11 · x64 | [安装包 EXE](https://github.com/yyyzl/ProxySprint/releases/latest/download/ProxySprint-Setup.exe) | 双击，按向导安装 |
+| Mac · Apple Silicon（M 系列） | [Apple Silicon DMG](https://github.com/yyyzl/ProxySprint/releases/latest/download/ProxySprint-macOS-arm64.dmg) | 打开后拖入 Applications |
+| Mac · Intel | [Intel DMG](https://github.com/yyyzl/ProxySprint/releases/latest/download/ProxySprint-macOS-x86_64.dmg) | 打开后拖入 Applications |
 
-界面沿用 prototypes/ui/index.html 的配色和组件。宽窗口下顶部入口固定，
-左侧筛选与右侧结果各自滚动，测试参数和开始 / 停止按钮固定在左侧底部；
-滚动长结果不会带走左侧设置。
-窄窗口按上下顺序排列，并使用整体滚动。
+Windows 另有[便携 ZIP](https://github.com/yyyzl/ProxySprint/releases/latest/download/ProxySprint-Windows-x64.zip)，完整解压后打开 `ProxySprint.exe`。无需安装 Python、Flutter 或 Node.js。
 
-## 引擎和安全边界
+当前 Windows 安装包尚无代码签名；macOS 应用尚未经过 Apple 公证，系统可能显示安全提示。文件校验值见 Release 中的 `SHA256SUMS.txt`。
 
-Flutter 通过私有 stdin/stdout 管道启动随包提供的 Python 引擎，
-不会打开外部浏览器或新增本地 Web 服务。
-订阅和文件在本机解析，只提取节点、节点来源、策略组及必要 TLS 设置，
-主配置中的规则、TUN、控制器和脚本不带入测速内核。
-节点快照和带令牌的来源设置只保存到用户私有数据目录，不写入测速报告。
-远程订阅不能引用本机证书或本机文件；下载限制为总共 32 MiB、最多 20 个来源。
-客户端模式仍只读取生效配置及缓存，不更新客户端订阅、不修改主配置、
-不切换主节点、不关闭主客户端。Windows 支持只读 named pipe 控制接口。
+## 三步上手
 
-地区来自节点名称，不是 IP 地理定位。ChatGPT 默认测试 trace 端点，
-不测模型生成速度、不验证账号业务、不读取浏览器或 Codex 凭据。
-Windows 使用系统 curl；macOS 使用本机 curl；订阅和文件模式使用自带 Mihomo v1.19.32。
-客户端模式保留用户现有内核的行为。
-普通退出、取消和窗口关闭会清理探针子进程。Windows Job Object 补充异常退出回收。
-强制断电等中断可能留下用户私有数据目录中的临时文件。
+1. **导入节点**：点击「导入节点」，粘贴自己的订阅链接，或选择配置文件。
+2. **选择范围**：勾选常用网站，选择地区或节点。不限制地区时点击「全部地区」。
+3. **开始测速**：查看各网站的推荐和排名；需要留存时点击「导出报告」。
 
-数据目录：Windows 用户的 LocalAppData/NodeScope；
-macOS 用户的 Library/Application Support/NodeScope。
-设置和报告保存在本机。真实配置、节点凭据和用户测速报告禁止提交仓库。
+已有 Clash Verge Rev 用户也可在「连接设置」中读取客户端节点。测速不会切换客户端正在使用的节点。
 
-## 开发和验证
+## 结果怎么看
 
-源码位于 G:\project\ClashSiteProbe。Flutter 源码在 desktop/，
-Python 引擎仍在项目根目录。当前使用 Flutter 3.47.7。
+| 指标 | 含义 | 怎么选 |
+| --- | --- | --- |
+| 成功率 | 多轮请求中，成功访问的比例 | 优先看 100% |
+| 响应延迟 | 从发出请求到收到网站首个字节的时间，取多轮中位数 | 越小，响应越快 |
+| 波动 | 多轮响应延迟的差异 | 越小，表现越稳定 |
 
-    python -m pip install -r requirements.txt pyinstaller
-    python scripts/download_test_core.py
-    python scripts/run_engine_tests.py
-    cd desktop
-    flutter pub get
-    flutter analyze --no-pub
-    flutter test --no-pub --timeout 60s
-    cd ..
-    python scripts/build_bundle.py
-    # Windows 另生成单文件安装器：
-    python scripts/build_installer.py
+这里测的是网站响应表现，不是下载带宽。ChatGPT 测试也不代表模型生成速度、账号可用性或服务解锁结果。结果反映本次网络状况，地区根据节点名称识别。
 
-Windows 未开启开发者模式时，可在 flutter pub get 更新依赖后运行
-scripts/prepare_windows_links.ps1 创建项目内插件目录联接，
-该脚本会再次执行 pub get 完成插件注册，再使用 --no-pub 编译；
-使用 -Flutter 参数指定 SDK 路径。脚本不更改系统开发者模式。
+## 常见问题
 
-scripts/download_test_core.py 下载固定官方内核并校验摘要，供测试与发行包共用。
-scripts/run_engine_tests.py 按文件执行全部 Python 回归，每个后台进程最多 60 秒。
-tests/packaged_engine.py 在打包的引擎进程中验证真实 Mihomo、
-两个本地网站、成功/失败行、各站独立推荐、URL / 文件独立测速、导出、取消与 EOF 清理。
-这些服务是隔离测试夹具，不是公网节点测速成绩。
-macOS 构建使用系统 hdiutil 生成压缩只读 DMG，包含应用、Applications 快捷方式与许可说明。
-tests/macos_dmg.py 验证映像完整性、挂载、复制安装、卸载后的签名与架构；
-随后从复制后的应用运行 tests/packaged_engine.py，验证实际安装内容的测速链路。
+**支持哪些订阅？** Clash/Mihomo 格式的 YAML / JSON。暂不支持 Base64 订阅或单条节点分享链接。应用不提供节点或订阅。
 
-Windows 安装器使用 Inno Setup 6.7.3。build_installer.py 从官方固定版本下载
-并核对 SHA-256，以便携模式放在项目 .tools/ 下，不修改系统 PATH 或安装全局编译器。
-tests/windows_installer.py 在全新测试目录验证完整文件、开始菜单、覆盖安装、
-已安装引擎真实请求、卸载和用户数据保留；如果检测到已有安装，会停止以避免覆盖。
-安装包脚本位于 packaging/windows/NodeScope.iss，CI 同时上传 Setup.exe 和便携 ZIP。
+**订阅导入失败怎么办？** 当前通过直连获取订阅。可先下载配置文件，再从本地导入；订阅引用其他远程节点来源时，需要在界面中确认获取。
 
-Git 流程：独立功能分支先通过 Windows / macOS 构建和测试，然后创建 PR，
-再次核对该提交的检查结果，最后合入 master。工作流见 .github/workflows/desktop.yml。
-默认构建 Windows、Apple Silicon macOS 和 Intel macOS 三个平台。
-推送 v* 标签或在 GitHub 发布该版本 Release 时，所有平台通过后自动附加安装器、
-Windows 便携 ZIP、两种 Mac 架构的 DMG 和 SHA256SUMS.txt 到 Release。
-scripts/prepare_release.py 会拒绝缺少任一平台附件的发布。
+**订阅和报告放在哪里？** 保存在本机；订阅链接、节点密码不会写入测速报告。Windows 和 macOS 的数据目录见[开发说明](CONTRIBUTING.md#本地数据)。
 
-## 授权
+**以前的 NodeScope 怎么升级？** ProxySprint 是 NodeScope 的新名称。Windows 直接覆盖安装；Mac 将新应用拖入 Applications，以后打开 ProxySprint。已有设置与报告继续使用，Mac 上旧的 NodeScope.app 可在确认新版本可用后自行移除。
 
-界面基于 ESTHER不二（esthersjw）的 esther-design-system，
-其改编遵循 **CC BY-NC-SA 4.0**。第三方依赖和再分发说明见
-THIRD_PARTY_NOTICES.md。未将该界面重新标为 MIT。
+## 开发与许可
+
+[开发、测试与打包](CONTRIBUTING.md) · [架构与设计](DESIGN.md) · [验证记录](VALIDATION.md) · [反馈问题](https://github.com/yyyzl/ProxySprint/issues)
+
+界面改编自 [ESTHER不二的 esther-design-system](https://github.com/esthersjw/esther-design-system)，遵循 **CC BY-NC-SA 4.0**（署名、非商业、相同方式共享）。随包 Mihomo 及其他依赖的许可证和源码链接见[第三方说明](THIRD_PARTY_NOTICES.md)。

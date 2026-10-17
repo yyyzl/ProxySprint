@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:clash_site_probe/engine_bridge.dart';
-import 'package:clash_site_probe/probe_controller.dart';
-import 'package:clash_site_probe/probe_page.dart';
-import 'package:clash_site_probe/ui_style.dart';
+import 'package:proxy_sprint/engine_bridge.dart';
+import 'package:proxy_sprint/probe_controller.dart';
+import 'package:proxy_sprint/probe_page.dart';
+import 'package:proxy_sprint/ui_style.dart';
 
 class FakeEngine implements EngineApi {
   bool failSave = false;
@@ -135,7 +135,7 @@ class FakeEngine implements EngineApi {
 
 void main() {
   setUpAll(() async {
-    if (Platform.environment['NODESCOPE_UI_CAPTURE'] == null ||
+    if (Platform.environment['PROXYSPRINT_UI_CAPTURE'] == null ||
         !Platform.isWindows) {
       return;
     }
@@ -268,7 +268,9 @@ void main() {
       final controller = ProbeController(FakeEngine());
       await controller.initialize();
       controller.report = {
-        'recommendations': [],
+        'recommendations': [
+          {'name': '日本 测试节点 0', 'site_id': 'chatgpt', 'median_ms': 10},
+        ],
         'rows': List.generate(
           30,
           (i) => {
@@ -299,6 +301,22 @@ void main() {
         ),
       );
       await tester.pumpAndSettle();
+      final folder = Platform.environment['PROXYSPRINT_UI_CAPTURE'];
+      Future<void> saveCapture(String name) async {
+        if (folder == null) return;
+        final boundary =
+            capture.currentContext!.findRenderObject()!
+                as RenderRepaintBoundary;
+        await tester.runAsync(() async {
+          final image = await boundary.toImage();
+          final bytes = await image.toByteData(format: ui.ImageByteFormat.png);
+          await File('$folder/$name-${size.width.toInt()}.png')
+              .writeAsBytes(bytes!.buffer.asUint8List());
+          image.dispose();
+        });
+      }
+
+      await saveCapture('overview');
       final before = tester.getTopLeft(find.text('测试目标'));
       await tester.drag(
         find.byKey(const Key('results-scroll')),
@@ -309,19 +327,7 @@ void main() {
       expect(find.text('测试目标').hitTestable(), findsOneWidget);
       expect(find.text('开始测速').hitTestable(), findsOneWidget);
       expect(tester.takeException(), isNull);
-      final folder = Platform.environment['NODESCOPE_UI_CAPTURE'];
-      if (folder != null) {
-        final boundary =
-            capture.currentContext!.findRenderObject()!
-                as RenderRepaintBoundary;
-        await tester.runAsync(() async {
-          final image = await boundary.toImage();
-          final bytes = await image.toByteData(format: ui.ImageByteFormat.png);
-          await File('$folder/layout-${size.width.toInt()}.png')
-              .writeAsBytes(bytes!.buffer.asUint8List());
-          image.dispose();
-        });
-      }
+      await saveCapture('layout');
       final actionPosition = tester.getTopLeft(find.text('开始测速'));
       await tester.drag(
         find.byKey(const Key('settings-scroll')),
@@ -435,7 +441,7 @@ void main() {
         ),
       );
       await tester.pumpAndSettle();
-      expect(find.text('节点探针'), findsOneWidget);
+      expect(find.text('ProxySprint'), findsOneWidget);
       expect(find.text('开始测速'), findsOneWidget);
       expect(find.text('首字节从快到慢'), findsNothing);
       expect(find.textContaining('下方还有结果'), findsNothing);

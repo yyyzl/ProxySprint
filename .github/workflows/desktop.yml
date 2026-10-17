@@ -63,7 +63,7 @@ jobs:
       - name: Frozen engine smoke test
         if: matrix.platform != 'Windows'
         env:
-          NODESCOPE_ENGINE_BINARY: ${{ github.workspace }}/work/dmg-install/Applications/NodeScope.app/Contents/Resources/engine/probe-engine/probe-engine
+          PROXYSPRINT_ENGINE_BINARY: ${{ github.workspace }}/work/dmg-install/Applications/ProxySprint.app/Contents/Resources/engine/probe-engine/probe-engine
         run: python -c "import subprocess,sys; subprocess.run([sys.executable,'tests/packaged_engine.py'],timeout=60,check=True)"
       - name: Build Windows installer
         if: matrix.platform == 'Windows'
@@ -71,13 +71,19 @@ jobs:
       - name: Windows install, upgrade and uninstall smoke test
         if: matrix.platform == 'Windows'
         run: python -c "import subprocess,sys; subprocess.run([sys.executable,'tests/windows_installer.py'],timeout=60,check=True)"
+      - name: Download previous Windows release for upgrade verification
+        if: matrix.platform == 'Windows'
+        run: curl.exe --fail --silent --show-error --location --max-time 60 --retry 2 --output work/NodeScope-Setup-1.1.1.exe https://github.com/${{ github.repository }}/releases/download/v1.1.1/NodeScope-Setup.exe
+      - name: NodeScope to ProxySprint upgrade smoke test
+        if: matrix.platform == 'Windows'
+        run: python -c "import subprocess,sys; subprocess.run([sys.executable,'tests/windows_installer.py','--previous-installer','work/NodeScope-Setup-1.1.1.exe'],timeout=60,check=True)"
       - uses: actions/upload-artifact@v4
         with:
-          name: NodeScope-${{ matrix.platform }}
+          name: ProxySprint-${{ matrix.platform }}
           path: |
-            dist/*.zip
-            dist/*.dmg
-            dist/NodeScope-Setup.exe
+            dist/ProxySprint-*.zip
+            dist/ProxySprint-*.dmg
+            dist/ProxySprint-Setup.exe
           if-no-files-found: error
   release:
     name: Publish all desktop packages
@@ -90,7 +96,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
-          pattern: NodeScope-*
+          pattern: ProxySprint-*
           merge-multiple: true
           path: work/release
       - name: Validate complete release and write checksums
@@ -99,9 +105,9 @@ jobs:
         with:
           body_path: work/release-notes.md
           files: |
-            work/release/NodeScope-Setup.exe
-            work/release/NodeScope-Windows-x64.zip
-            work/release/NodeScope-macOS-arm64.dmg
-            work/release/NodeScope-macOS-x86_64.dmg
+            work/release/ProxySprint-Setup.exe
+            work/release/ProxySprint-Windows-x64.zip
+            work/release/ProxySprint-macOS-arm64.dmg
+            work/release/ProxySprint-macOS-x86_64.dmg
             work/release/SHA256SUMS.txt
           fail_on_unmatched_files: true

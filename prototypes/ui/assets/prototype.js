@@ -197,7 +197,7 @@ document.addEventListener('alpine:init', function () {
         }
         const blob=new Blob([content],{type:this.format==='csv'?'text/csv;charset=utf-8':'application/json'});
         const url=URL.createObjectURL(blob),link=document.createElement('a');
-        link.href=url;link.download='节点探针-报告.'+this.format;link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+        link.href=url;link.download='ProxySprint · 代理节点测速-报告.'+this.format;link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
         this.closeModal();this.notify('已导出 '+this.format.toUpperCase()+' 报告');
       }
     };

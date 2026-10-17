@@ -19,6 +19,8 @@ add_executable(${BINARY_NAME} WIN32
 # Apply the standard set of build settings. This can be removed for applications
 # that need different build settings.
 apply_standard_settings(${BINARY_NAME})
+# 中文窗口标题按 UTF-8 编译，避免依赖开发机的系统代码页。
+target_compile_options(${BINARY_NAME} PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:/utf-8>")
 
 # Add preprocessor definitions for the build version.
 target_compile_definitions(${BINARY_NAME} PRIVATE "FLUTTER_VERSION=\"${FLUTTER_VERSION}\"")

@@ -21,5 +21,5 @@ if ! .venv/bin/python -c 'import yaml' >/dev/null 2>&1; then
   printf '首次启动：正在安装 YAML 配置读取依赖 PyYAML，需要联网…\n'
   .venv/bin/python -m pip install -r requirements.txt
 fi
-printf '\n节点探针已启动。浏览器将自动打开；保留这个终端窗口。\n按 Control+C 退出，不会修改当前 Clash 线路。\n\n'
+printf '\nProxySprint · 代理节点测速已启动。浏览器将自动打开；保留这个终端窗口。\n按 Control+C 退出，不会修改当前 Clash 线路。\n\n'
 exec .venv/bin/python server.py
